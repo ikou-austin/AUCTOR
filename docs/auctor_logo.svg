@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80">
   <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
     </linearGradient>
   </defs>
-  <rect width="520" height="100" fill="#0f172a" rx="12"/>
-  <text x="24" y="62" font-family="monospace, Courier New" font-size="42" font-weight="bold" fill="url(#grad1)">AUCTOR</text>
-  <text x="270" y="48" font-family="sans-serif, Helvetica" font-size="13" fill="#94a3b8">Automated Understanding, Code</text>
-  <text x="270" y="68" font-family="sans-serif, Helvetica" font-size="13" fill="#94a3b8">Testing, Optimization &amp; Reproduction</text>
-  <rect x="24" y="78" width="80" height="3" rx="1.5" fill="#2563eb" opacity="0.6"/>
+  <rect width="520" height="80" fill="#0f172a" rx="10"/>
+  <text x="24" y="50" font-family="Courier New, monospace" font-size="36" font-weight="bold" fill="url(#g1)">AUCTOR</text>
+  <text x="260" y="38" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#94a3b8">Automated Understanding, Code</text>
+  <text x="260" y="56" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#94a3b8">Testing, Optimization &amp; Reproduction</text>
+  <rect x="24" y="64" width="70" height="2" rx="1" fill="#2563eb" opacity="0.6"/>
 </svg>
