@@ -4,56 +4,56 @@
 
 ![AUCTOR](docs/auctor_logo.svg)
 
-### Pipeline Overview
+### 流程总览
 
 ```mermaid
 graph TD
-  A["paper-parse\nStructured Extraction"] -->|"REPRO_TARGET.md"| B["engineering-repro\nReproduce Baseline"]
-  B -->|"Baseline Verified"| C["engineering-improve\nHypothesis-driven A/B"]
-  C -->|"Best Model"| D["engineering-deploy\nONNX / TensorRT Export"]
-  D -->|"Artifacts"| E["engineering-report\nReport + Feishu Push"]
-  E -->|"Quick Iteration"| C
-  E -->|"New Paper / New Requirement"| A
+  A["paper-parse\n结构化提取"] -->|"REPRO_TARGET.md"| B["engineering-repro\n复现基线"]
+  B -->|"基线验证通过"| C["engineering-improve\n假设驱动 A/B 改进"]
+  C -->|"最优模型"| D["engineering-deploy\nONNX / TensorRT 导出"]
+  D -->|"部署产物"| E["engineering-report\n自动汇报 + 飞书推送"]
+  E -->|"快速迭代"| C
+  E -->|"新论文 / 新需求"| A
 ```
 
-### engineering-repro State Machine
+### engineering-repro 状态机
 
 ```mermaid
 stateDiagram-v2
-  [*] --> PaperAnalysis: Paper PDF / Requirement
-  PaperAnalysis --> ResourceCollection: Extract key info
+  [*] --> 论文分析: 论文 PDF / 需求文档
+  论文分析 --> 资源收集: 提取关键信息
 
-  ResourceCollection --> HasCode: Code available?
-  HasCode --> CodePath: Yes
-  HasCode --> PaperOnlyPath: No
+  资源收集 --> 有代码: 开源代码可用?
+  有代码 --> 代码路径: 是
+  有代码 --> 纯论文路径: 否
 
-  state CodePath {
-    EnvSetup --> RunBaseline
-    RunBaseline --> CheckBenchmark
+  state 代码路径 {
+    环境搭建 --> 运行基线
+    运行基线 --> 对比指标
   }
 
-  state PaperOnlyPath {
-    FindBackbone --> ImplementFromPaper
-    ImplementFromPaper --> RunBaseline2: Build on backbone
-    RunBaseline2 --> CheckBenchmark2
+  state 纯论文路径 {
+    寻找Backbone --> 基于论文实现
+    基于论文实现 --> 运行基线2: 在backbone上构建
+    运行基线2 --> 对比指标2
   }
 
-  CodePath --> ReproResult
-  PaperOnlyPath --> ReproResult
+  代码路径 --> 复现结果
+  纯论文路径 --> 复现结果
 
-  ReproResult --> Success: Metrics match
-  ReproResult --> FailureAnalysis: Metrics mismatch
+  复现结果 --> 成功: 指标匹配
+  复现结果 --> 失败分析: 指标偏差
 
-  FailureAnalysis --> FixAttempt: env / data / code / paper ambiguity
-  FixAttempt --> ReproResult: Retry (fix one variable)
+  失败分析 --> 修复尝试: 环境/数据/代码/论文模糊
+  修复尝试 --> 复现结果: 重试(每次改一个变量)
 
-  FailureAnalysis --> Escalation: MAX retries reached
-  Escalation --> HumanIntervention: STUCK_REPORT.md
-  Escalation --> Abandoned: Give up
+  失败分析 --> 升级决策: 达到最大重试次数
+  升级决策 --> 人工介入: STUCK_REPORT.md
+  升级决策 --> 放弃: 终止任务
 
-  Success --> [*]
-  HumanIntervention --> ResourceCollection: Human provides clue
-  Abandoned --> [*]
+  成功 --> [*]
+  人工介入 --> 资源收集: 人工提供线索后重入
+  放弃 --> [*]
 ```
 
 > **让 AI Agent 帮你完成工程复现 → 改进 → 部署 → 汇报的全流程。** 醒来时发现论文已复现、指标已超越、模型已导出、报告已发出。
