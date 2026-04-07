@@ -93,12 +93,23 @@ def main():
     parser.add_argument("--save-model", action="store_true", default=True)
     parser.add_argument("--variant", type=str, default="improved_batchnorm",
                         help="Experiment variant name")
+    parser.add_argument("--device", type=str, default="auto",
+                        choices=["auto", "cpu", "cuda", "mps"],
+                        help="Force device selection")
     args = parser.parse_args()
 
     torch.manual_seed(args.seed)
     os.makedirs(args.output_dir, exist_ok=True)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if args.device == "auto":
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+        elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+            device = torch.device("mps")
+        else:
+            device = torch.device("cpu")
+    else:
+        device = torch.device(args.device)
     print(f"Device: {device}")
 
     transform = transforms.Compose([
@@ -106,8 +117,8 @@ def main():
         transforms.Normalize((0.1307,), (0.3081,)),
     ])
 
-    train_dataset = datasets.MNIST("./data", train=True, download=True, transform=transform)
-    test_dataset = datasets.MNIST("./data", train=False, transform=transform)
+    train_dataset = datasets.MNIST("./data", train=True, download=False, transform=transform)
+    test_dataset = datasets.MNIST("./data", train=False, download=False, transform=transform)
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1000, shuffle=False)
 

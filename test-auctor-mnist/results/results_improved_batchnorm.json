@@ -1,0 +1,44 @@
+{
+  "variant": "improved_batchnorm",
+  "improvements": [
+    "BatchNorm after conv layers",
+    "CosineAnnealingLR scheduler"
+  ],
+  "config": {
+    "epochs": 3,
+    "batch_size": 64,
+    "lr": 0.001,
+    "seed": 42,
+    "device": "cpu"
+  },
+  "final_test_accuracy": 0.9892,
+  "final_test_loss": 0.032519,
+  "best_test_accuracy": 0.9892,
+  "training_time_seconds": 330.7,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.245134,
+      "train_acc": 0.926233,
+      "test_loss": 0.05121,
+      "test_acc": 0.9851,
+      "lr": 0.00075
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.108857,
+      "train_acc": 0.967717,
+      "test_loss": 0.04346,
+      "test_acc": 0.9843,
+      "lr": 0.00025
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.071171,
+      "train_acc": 0.978867,
+      "test_loss": 0.032519,
+      "test_acc": 0.9892,
+      "lr": 0.0
+    }
+  ]
+}

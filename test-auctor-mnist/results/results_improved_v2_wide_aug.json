@@ -1,0 +1,41 @@
+{
+  "variant": "improved_v2_wide_aug",
+  "improvements": [
+    "Data augmentation (rotation \u00b110\u00b0, translate 10%)",
+    "Wider model (64\u2192128 channels, 256 FC)"
+  ],
+  "config": {
+    "epochs": 3,
+    "batch_size": 64,
+    "lr": 0.001,
+    "seed": 42,
+    "device": "cpu"
+  },
+  "final_test_accuracy": 0.9913,
+  "final_test_loss": 0.027878,
+  "best_test_accuracy": 0.9913,
+  "training_time_seconds": 704.6,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.34909,
+      "train_acc": 0.890333,
+      "test_loss": 0.042085,
+      "test_acc": 0.9858
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.153118,
+      "train_acc": 0.9536,
+      "test_loss": 0.03298,
+      "test_acc": 0.9889
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.125476,
+      "train_acc": 0.96275,
+      "test_loss": 0.027878,
+      "test_acc": 0.9913
+    }
+  ]
+}

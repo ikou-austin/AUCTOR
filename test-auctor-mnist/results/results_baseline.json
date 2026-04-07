@@ -1,0 +1,37 @@
+{
+  "variant": "baseline",
+  "config": {
+    "epochs": 3,
+    "batch_size": 64,
+    "lr": 0.001,
+    "seed": 42,
+    "device": "cpu"
+  },
+  "final_test_accuracy": 0.9906,
+  "final_test_loss": 0.029168,
+  "best_test_accuracy": 0.9906,
+  "training_time_seconds": 284.9,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.198892,
+      "train_acc": 0.940833,
+      "test_loss": 0.048068,
+      "test_acc": 0.9852
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.079482,
+      "train_acc": 0.976483,
+      "test_loss": 0.033796,
+      "test_acc": 0.9884
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.06267,
+      "train_acc": 0.980983,
+      "test_loss": 0.029168,
+      "test_acc": 0.9906
+    }
+  ]
+}

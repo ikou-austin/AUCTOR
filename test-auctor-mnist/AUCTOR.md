@@ -6,17 +6,17 @@
 - Started: 2026-04-07
 
 ## Pipeline Status
-- Stage: repro
-- Current skill: engineering-repro
-- Last update: 2026-04-07
+- Stage: report (complete)
+- Current skill: engineering-report
+- Last update: 2026-04-07T10:15
 
 ## Configuration
-- GPU: Google Colab (T4 / L4 single GPU)
+- GPU: CPU (Intel i7-8750H, MPS unavailable on Intel Mac)
 - Compute budget: 1 GPU-hour (test only)
 - WandB: not configured
 
 ## Stage Results
-- Reproduction: IN_PROGRESS
-- Improvement: PENDING
-- Deployment: PENDING
-- Report: PENDING
+- Reproduction: REPRODUCED (99.06%, 3 env-fix retries)
+- Improvement: ACCEPTED (99.13%, +0.07%, 2 hypothesis rounds)
+- Deployment: SKIPPED (onnxruntime unavailable)
+- Report: DELIVERED (reports/REPORT_20260407_mnist.md)
