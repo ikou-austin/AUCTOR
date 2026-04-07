@@ -2,30 +2,56 @@
 
 ![AUCTOR](docs/auctor_logo.svg)
 
+### Pipeline Overview
+
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
-flowchart LR
-    subgraph AUCTOR["AUCTOR Engineering Pipeline"]
-        direction LR
-        PP["📄 paper-parse\nPDF → Structured Extract\nPAPER_ANALYSIS.md"]
-        ER["🔬 engineering-repro\nReproduce Baseline\nFailure Diagnosis ×5"]
-        EI["⚡ engineering-improve\nHypothesis → A/B Compare\nIterative Loop"]
-        ED["🚀 engineering-deploy\nExport ONNX / TensorRT\nIntegration Test"]
-        RE["📊 engineering-report\nAuto-generate Report\nPush to Feishu"]
+graph TD
+  A["paper-parse\nStructured Extraction"] -->|"REPRO_TARGET.md"| B["engineering-repro\nReproduce Baseline"]
+  B -->|"Baseline Verified"| C["engineering-improve\nHypothesis-driven A/B"]
+  C -->|"Best Model"| D["engineering-deploy\nONNX / TensorRT Export"]
+  D -->|"Artifacts"| E["engineering-report\nReport + Feishu Push"]
+  E -->|"Quick Iteration"| C
+  E -->|"New Paper / New Requirement"| A
+```
 
-        PP -->|REPRO_TARGET.md| ER
-        ER -->|Verified Baseline| EI
-        EI -->|Best Model| ED
-        ED -->|Artifacts| RE
-    end
+### engineering-repro State Machine
 
-    RE -. "🔄 Feedback Loop\nRequirement Change" .-> PP
+```mermaid
+stateDiagram-v2
+  [*] --> PaperAnalysis: Paper PDF / Requirement
+  PaperAnalysis --> ResourceCollection: Extract key info
 
-    style PP fill:#0d9488,stroke:#14b8a6,color:#fff
-    style ER fill:#2563eb,stroke:#3b82f6,color:#fff
-    style EI fill:#7c3aed,stroke:#8b5cf6,color:#fff
-    style ED fill:#059669,stroke:#10b981,color:#fff
-    style RE fill:#d97706,stroke:#f59e0b,color:#fff
+  ResourceCollection --> HasCode: Code available?
+  HasCode --> CodePath: Yes
+  HasCode --> PaperOnlyPath: No
+
+  state CodePath {
+    EnvSetup --> RunBaseline
+    RunBaseline --> CheckBenchmark
+  }
+
+  state PaperOnlyPath {
+    FindBackbone --> ImplementFromPaper
+    ImplementFromPaper --> RunBaseline2: Build on backbone
+    RunBaseline2 --> CheckBenchmark2
+  }
+
+  CodePath --> ReproResult
+  PaperOnlyPath --> ReproResult
+
+  ReproResult --> Success: Metrics match
+  ReproResult --> FailureAnalysis: Metrics mismatch
+
+  FailureAnalysis --> FixAttempt: env / data / code / paper ambiguity
+  FixAttempt --> ReproResult: Retry (fix one variable)
+
+  FailureAnalysis --> Escalation: MAX retries reached
+  Escalation --> HumanIntervention: STUCK_REPORT.md
+  Escalation --> Abandoned: Give up
+
+  Success --> [*]
+  HumanIntervention --> ResourceCollection: Human provides clue
+  Abandoned --> [*]
 ```
 
 > **让 AI Agent 帮你完成工程复现 → 改进 → 部署 → 汇报的全流程。** 醒来时发现论文已复现、指标已超越、模型已导出、报告已发出。
@@ -38,27 +64,14 @@ flowchart LR
 
 ## 核心流程
 
-```
-论文 PDF / 需求文档
-       │
-       ▼
-  /paper-parse          ← 结构化提取论文信息
-       │
-       ▼
-  /engineering-repro    ← 复现 baseline（含失败诊断循环）
-       │
-       ▼
-  /engineering-improve  ← 假设驱动的迭代改进
-       │
-       ▼
-  /engineering-deploy   ← 模型导出 + 性能优化 + 验证
-       │
-       ▼
-  /engineering-report   ← 自动生成汇报 + 飞书推送
-       │
-       ▼
-  🔄 Feedback Loop      ← 需求变更 → 重新进入任意阶段
-```
+**Pipeline Overview** 展示 5 个阶段的全局串联和反馈回路。**State Machine** 展开最复杂的 `engineering-repro`——双路径（有代码/无代码）、失败诊断循环、人工介入闸门。
+
+1. **paper-parse** — 结构化提取论文信息（backbone vs baseline、数据集、超参、指标）→ `PAPER_ANALYSIS.md` + `REPRO_TARGET.md`
+2. **engineering-repro** — 双路径复现：有代码则克隆+环境搭建，无代码则找 backbone 从论文实现。内置 **Agent Loop**：失败 → 自动诊断（环境/数据/代码/论文模糊）→ 每次只改一个变量 → 重试，最多 N 次。耗尽后生成 `STUCK_REPORT.md` 请求人工介入。
+3. **engineering-improve** — 假设驱动的 A/B 迭代改进（单变量控制），Accept/Reject 逐个假设
+4. **engineering-deploy** — 模型导出（ONNX/TensorRT）+ 集成测试 + 失败修复循环
+5. **engineering-report** — 收集所有指标 → 对比图表 → 报告 → 飞书推送
+6. **Feedback Loop** — 需求变更时快速迭代回到 improve，新论文/新需求回到 parse
 
 一键全流程：
 
