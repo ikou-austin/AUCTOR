@@ -6,6 +6,8 @@ Ready-to-use templates for each ARIS workflow. Copy, fill in your content, and r
 
 | Template | For Workflow | What to do |
 |----------|-------------|------------|
+| [PAPER_REPRO_TARGET_TEMPLATE.md](PAPER_REPRO_TARGET_TEMPLATE.md) | Paper reproduction | Freeze the paper, target metric, and repo search policy before starting |
+| [PAPER_REPRO_PLAN_TEMPLATE.md](PAPER_REPRO_PLAN_TEMPLATE.md) | Paper reproduction | Track repo lineage, repo-to-paper deltas, and the reproduction ladder |
 | [RESEARCH_BRIEF_TEMPLATE.md](RESEARCH_BRIEF_TEMPLATE.md) | Workflow 1 | Detailed research direction as document input |
 | [RESEARCH_CONTRACT_TEMPLATE.md](RESEARCH_CONTRACT_TEMPLATE.md) | Workflow 1 | Define problem boundaries, non-goals, timeline before starting |
 | [EXPERIMENT_PLAN_TEMPLATE.md](EXPERIMENT_PLAN_TEMPLATE.md) | Workflow 1.5 | Claim-driven experiment roadmap with run order and budgets |
@@ -26,4 +28,12 @@ Ready-to-use templates for each ARIS workflow. Copy, fill in your content, and r
 cp templates/EXPERIMENT_PLAN_TEMPLATE.md refine-logs/EXPERIMENT_PLAN.md
 # Edit with your content, then:
 /experiment-bridge
+```
+
+For paper reproduction:
+
+```bash
+cp templates/PAPER_REPRO_TARGET_TEMPLATE.md PAPER_REPRO_TARGET.md
+# Edit with your target, then:
+/paper-reproduction
 ```
