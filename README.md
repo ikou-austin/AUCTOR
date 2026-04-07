@@ -1,8 +1,30 @@
 # AUCTOR — Automated Understanding, Code Testing, Optimization & Reproduction
 
-![AUCTOR Logo](docs/auctor_logo.svg)
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
+flowchart LR
+    subgraph AUCTOR["AUCTOR Engineering Pipeline"]
+        direction LR
+        PP["📄 paper-parse\nPDF → Structured Extract\nPAPER_ANALYSIS.md"]
+        ER["🔬 engineering-repro\nReproduce Baseline\nFailure Diagnosis ×5"]
+        EI["⚡ engineering-improve\nHypothesis → A/B Compare\nIterative Loop"]
+        ED["🚀 engineering-deploy\nExport ONNX / TensorRT\nIntegration Test"]
+        RE["📊 engineering-report\nAuto-generate Report\nPush to Feishu"]
 
-![AUCTOR Pipeline](docs/auctor_pipeline.svg)
+        PP -->|REPRO_TARGET.md| ER
+        ER -->|Verified Baseline| EI
+        EI -->|Best Model| ED
+        ED -->|Artifacts| RE
+    end
+
+    RE -. "🔄 Feedback Loop\nRequirement Change" .-> PP
+
+    style PP fill:#0d9488,stroke:#14b8a6,color:#fff
+    style ER fill:#2563eb,stroke:#3b82f6,color:#fff
+    style EI fill:#7c3aed,stroke:#8b5cf6,color:#fff
+    style ED fill:#059669,stroke:#10b981,color:#fff
+    style RE fill:#d97706,stroke:#f59e0b,color:#fff
+```
 
 > **让 AI Agent 帮你完成工程复现 → 改进 → 部署 → 汇报的全流程。** 醒来时发现论文已复现、指标已超越、模型已导出、报告已发出。
 >
