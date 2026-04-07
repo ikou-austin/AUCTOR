@@ -132,7 +132,7 @@ claude mcp add codex -s user -- codex mcp-server
 | 📊 [`analyze-results`](skills/analyze-results/SKILL.md) | Analyze experiment results, generate statistics and comparisons |
 | 📱 [`feishu-notify`](skills/feishu-notify/SKILL.md) | Feishu/Lark notification push |
 | 📐 [`mermaid-diagram`](skills/mermaid-diagram/SKILL.md) | Mermaid diagram generation |
-| 🔬 [`research-review`](skills/research-review/SKILL.md) | Cross-model review (GPT-5.4 xhigh) |
+| 🔬 [`research-review`](skills/research-review/SKILL.md) | External LLM review (optional, e.g. pre-deployment code review) |
 
 ---
 
@@ -155,12 +155,11 @@ If `MAX_RETRIES` is reached without success, it generates `STUCK_REPORT.md` and 
 - **Backbone** — The foundation your new method builds upon. Critical for reproducing paper-only (no-code) work.
 - **Baseline** — Comparison numbers in the results table. Different architectures, for reference only.
 
-### Cross-Model Collaboration
+### Single Agent, Continuous Context
 
-- **Executor**: Claude Code / Cursor / Codex CLI drives execution
-- **Reviewer**: GPT-5.4 / Gemini / MiniMax provides independent review
+Engineering reproduction and improvement are **highly context-dependent** tasks — the reason behind each debugging attempt, the outcome of each retry, and the pitfalls of the environment all form critical information for subsequent decisions. Different models/agents don't share context; forcing a split only loses information.
 
-Single-model self-review has blind spots; cross-model adversarial review works better.
+AUCTOR's core design: **one agent runs the entire pipeline**, from paper parsing through reproduction debugging to iterative improvement, maintaining continuous context throughout. This is more effective than splitting work across multiple agents that don't share memory.
 
 ---
 

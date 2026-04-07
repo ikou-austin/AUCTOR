@@ -132,7 +132,7 @@ claude mcp add codex -s user -- codex mcp-server
 | 📊 [`analyze-results`](skills/analyze-results/SKILL.md) | 分析实验结果，生成统计和对比 |
 | 📱 [`feishu-notify`](skills/feishu-notify/SKILL.md) | 飞书/Lark 通知推送 |
 | 📐 [`mermaid-diagram`](skills/mermaid-diagram/SKILL.md) | Mermaid 图表生成 |
-| 🔬 [`research-review`](skills/research-review/SKILL.md) | 交叉模型审查（GPT-5.4 xhigh） |
+| 🔬 [`research-review`](skills/research-review/SKILL.md) | 外部 LLM 辅助审查（可选，用于部署前 code review 等） |
 
 ---
 
@@ -155,12 +155,11 @@ run → 检查结果 → 诊断失败原因 → 修复（每次只改一个变�
 - **Backbone（基座模型）** — 你的新方法构建在什么之上。无代码论文复现的关键。
 - **Baseline（基线对照组）** — 结果表里的比较数字。不同架构，仅供参考。
 
-### 跨模型协作
+### 单 Agent 连续上下文
 
-- **Executor**：Claude Code / Cursor / Codex CLI 驱动执行
-- **Reviewer**：GPT-5.4 / Gemini / MiniMax 提供独立审查
+工程复现和改进是**高度上下文依赖**的任务——每次调试的原因、每次 retry 的结果、环境的坑点都构成后续决策的关键信息。不同模型/agent 之间不共享上下文，强行拆分只会丢失信息。
 
-单模型自审容易陷入盲区，跨模型对抗式审查效果更好。
+AUCTOR 的核心设计是：**一个 Agent 贯穿整个流程**，从论文解析到复现调试到改进迭代，全程保持连续上下文。这比拆分成多个不共享记忆的 agent "协作"更高效。
 
 ---
 
