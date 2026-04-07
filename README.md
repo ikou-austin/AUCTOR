@@ -1,5 +1,7 @@
 # AUCTOR — Automated Understanding, Code Testing, Optimization & Reproduction
 
+![AUCTOR](docs/auctor_logo.svg)
+
 ```mermaid
 %%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart LR

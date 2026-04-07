@@ -1,13 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80">
-  <defs>
-    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#2563eb"/>
-      <stop offset="100%" style="stop-color:#7c3aed"/>
-    </linearGradient>
-  </defs>
-  <rect width="520" height="80" fill="#0f172a" rx="10"/>
-  <text x="24" y="50" font-family="Courier New, monospace" font-size="36" font-weight="bold" fill="url(#g1)">AUCTOR</text>
-  <text x="260" y="38" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#94a3b8">Automated Understanding, Code</text>
-  <text x="260" y="56" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#94a3b8">Testing, Optimization &amp; Reproduction</text>
-  <rect x="24" y="64" width="70" height="2" rx="1" fill="#2563eb" opacity="0.6"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100">
+  <rect width="520" height="100" fill="#fafbfc" rx="10"/>
+
+  <!-- AUCTOR text + tagline (center-left) -->
+  <text x="100" y="38" fill="#1e293b" font-family="monospace" font-size="32" font-weight="bold" letter-spacing="4">AUCTOR</text>
+  <text x="102" y="56" fill="#64748b" font-family="monospace" font-size="10">Automated Understanding, Code Testing,</text>
+  <text x="102" y="70" fill="#64748b" font-family="monospace" font-size="10">Optimization &amp; Reproduction</text>
+  <text x="102" y="88" fill="#94a3b8" font-family="monospace" font-size="8">engineering repro &#x2192; improve &#x2192; deploy &#x2192; report</text>
+
+  <!-- Craftsman pixel character (right side, buddy style) -->
+  <g transform="translate(428,2) scale(0.88)">
+    <!-- Hard hat (amber) -->
+    <rect x="20" y="38" width="7" height="7" fill="#d97706"/>
+    <rect x="27" y="38" width="7" height="7" fill="#d97706"/>
+    <rect x="34" y="38" width="7" height="7" fill="#d97706"/>
+    <rect x="41" y="38" width="7" height="7" fill="#d97706"/>
+    <rect x="13" y="45" width="7" height="7" fill="#f59e0b"/>
+    <rect x="20" y="45" width="7" height="7" fill="#d97706"/>
+    <rect x="27" y="45" width="7" height="7" fill="#d97706"/>
+    <rect x="34" y="45" width="7" height="7" fill="#d97706"/>
+    <rect x="41" y="45" width="7" height="7" fill="#d97706"/>
+    <rect x="48" y="45" width="7" height="7" fill="#f59e0b"/>
+    <!-- Face -->
+    <rect x="13" y="52" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="20" y="52" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="27" y="52" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="34" y="52" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="41" y="52" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="48" y="52" width="7" height="7" fill="#FFDAB9"/>
+    <!-- Eyes (determined look) -->
+    <rect x="13" y="59" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="20" y="59" width="7" height="7" fill="#1e293b"/>
+    <rect x="27" y="59" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="34" y="59" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="41" y="59" width="7" height="7" fill="#1e293b"/>
+    <rect x="48" y="59" width="7" height="7" fill="#FFDAB9"/>
+    <!-- Mouth (slight grin) -->
+    <rect x="13" y="66" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="20" y="66" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="27" y="66" width="7" height="7" fill="#E8967A"/>
+    <rect x="34" y="66" width="7" height="7" fill="#E8967A"/>
+    <rect x="41" y="66" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="48" y="66" width="7" height="7" fill="#FFDAB9"/>
+    <!-- Body (dark blue work outfit) + left hand -->
+    <rect x="6" y="73" width="7" height="7" fill="#FFDAB9"/>
+    <rect x="13" y="73" width="7" height="7" fill="#2563eb"/>
+    <rect x="20" y="73" width="7" height="7" fill="#2563eb"/>
+    <rect x="27" y="73" width="7" height="7" fill="#2563eb"/>
+    <rect x="34" y="73" width="7" height="7" fill="#2563eb"/>
+    <rect x="41" y="73" width="7" height="7" fill="#2563eb"/>
+    <rect x="48" y="73" width="7" height="7" fill="#2563eb"/>
+    <rect x="55" y="73" width="7" height="7" fill="#FFDAB9"/>
+    <!-- Body lower -->
+    <rect x="13" y="80" width="7" height="7" fill="#2563eb"/>
+    <rect x="20" y="80" width="7" height="7" fill="#2563eb"/>
+    <rect x="27" y="80" width="7" height="7" fill="#2563eb"/>
+    <rect x="34" y="80" width="7" height="7" fill="#2563eb"/>
+    <rect x="41" y="80" width="7" height="7" fill="#2563eb"/>
+    <rect x="48" y="80" width="7" height="7" fill="#2563eb"/>
+    <!-- Legs -->
+    <rect x="16" y="87" width="7" height="7" fill="#334155"/>
+    <rect x="23" y="87" width="7" height="7" fill="#334155"/>
+    <rect x="37" y="87" width="7" height="7" fill="#334155"/>
+    <rect x="44" y="87" width="7" height="7" fill="#334155"/>
+
+    <!-- === HAMMER (right hand holds it) === -->
+    <!-- Handle (vertical, brown, extending up from right hand) -->
+    <rect x="57" y="52" width="5" height="7" fill="#92400e"/>
+    <rect x="57" y="59" width="5" height="7" fill="#92400e"/>
+    <rect x="57" y="66" width="5" height="7" fill="#92400e"/>
+    <!-- Hammerhead (horizontal, steel gray) -->
+    <rect x="50" y="45" width="7" height="7" fill="#64748b"/>
+    <rect x="57" y="45" width="7" height="7" fill="#475569"/>
+    <rect x="64" y="45" width="7" height="7" fill="#64748b"/>
+    <rect x="64" y="38" width="7" height="7" fill="#94a3b8"/>
+  </g>
 </svg>
