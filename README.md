@@ -1,3 +1,5 @@
+[English](README_EN.md) | [中文](README.md)
+
 # AUCTOR — Automated Understanding, Code Testing, Optimization & Reproduction
 
 ![AUCTOR](docs/auctor_logo.svg)
