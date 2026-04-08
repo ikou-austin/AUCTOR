@@ -155,6 +155,18 @@ If `MAX_RETRIES` is reached without success, it generates `STUCK_REPORT.md` and 
 - **Backbone** — The foundation your new method builds upon. Critical for reproducing paper-only (no-code) work.
 - **Baseline** — Comparison numbers in the results table. Different architectures, for reference only.
 
+### FROZEN_SPEC — Experiment Fairness Lock
+
+After successful reproduction, `engineering-repro` generates `FROZEN_SPEC.md`, **locking two things**:
+
+| Locked Item | Policy | On Violation |
+|-------------|--------|-------------|
+| **Data Preparation** (dataset, preprocessing, splits) | Fully frozen | Refuse to run, warn user |
+| **Evaluation Protocol** (metrics, eval script, test set) | Fully frozen | Refuse to run, warn user |
+| **Data Augmentation** (noise, reverb, speed, etc.) | Needs user approval | Ask user; if approved, baseline must be re-run with same augmentation |
+
+The improvement phase can only modify: feature extraction, model architecture, training algorithm, hyperparameters, loss function. Data and evaluation stay untouched, ensuring fair comparison.
+
 ### Single Agent, Continuous Context
 
 Engineering reproduction and improvement are **highly context-dependent** tasks — the reason behind each debugging attempt, the outcome of each retry, and the pitfalls of the environment all form critical information for subsequent decisions. Different models/agents don't share context; forcing a split only loses information.

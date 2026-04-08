@@ -30,10 +30,13 @@ Take a verified baseline from `/engineering-repro` and iteratively improve it th
    - `repro-logs/REPRO_TRACKER.md` — baseline metrics
    - Baseline checkpoint and run command
    - `repro-logs/REPRO_PLAN.md` — understanding of the method
-2. **Improvement direction** from `$ARGUMENTS` or requirement document
-3. **AUCTOR.md** — GPU config, compute budget, constraints
+2. **`FROZEN_SPEC.md`** — experiment fairness lock (REQUIRED)
+3. **Improvement direction** from `$ARGUMENTS` or requirement document
+4. **AUCTOR.md** — GPU config, compute budget, constraints
 
 If no verified baseline exists, warn the user and suggest running `/engineering-repro` first.
+
+**If `FROZEN_SPEC.md` does not exist, REFUSE to proceed.** The frozen spec is the fairness guarantee — without it, improvement results cannot be trusted.
 
 ## Files This Skill Maintains
 
@@ -76,6 +79,32 @@ improve-logs/
 
 4. Write to `improve-logs/IMPROVE_PLAN.md`
 
+### Phase 1.5: Frozen Spec Compliance Check
+
+Before ANY experiment, read `FROZEN_SPEC.md` and enforce:
+
+| Section | Policy | On Violation |
+|---------|--------|-------------|
+| **Data Preparation** | FROZEN — no changes allowed | HALT and warn user |
+| **Evaluation Protocol** | FROZEN — no changes allowed | HALT and warn user |
+| **Data Augmentation** | NEEDS_USER_APPROVAL | Ask user; if approved, document as deliberate variable and re-run baseline with same augmentation for fair comparison |
+
+**Before each round**, verify:
+1. Training data is identical to `FROZEN_SPEC.md` (same files, same preprocessing)
+2. Evaluation script/command matches `FROZEN_SPEC.md` exactly
+3. Evaluation set (test split) is unchanged
+4. No data leakage (test data not used in training/validation)
+
+If a proposed hypothesis requires changing frozen items (e.g., "try a different dataset" or "use a different metric"), this is NOT an improvement — it is a new reproduction target. Redirect the user to `/engineering-repro` with a new `REPRO_TARGET.md`.
+
+**Allowed modifications** (from `FROZEN_SPEC.md`):
+- Feature extraction parameters
+- Model architecture
+- Training algorithm / optimizer / scheduler
+- Hyperparameters
+- Loss function
+- Regularization
+
 ### Phase 2: Improvement Loop (repeat up to MAX_IMPROVEMENT_ROUNDS)
 
 For each hypothesis (highest priority first):
@@ -85,6 +114,7 @@ For each hypothesis (highest priority first):
 - Create a new experiment branch or config variant
 - Implement the proposed modification
 - Keep the change isolated — one hypothesis per round
+- **Verify the change does NOT touch any FROZEN items**
 
 #### 2.2: Code Review (if CODE_REVIEW = true)
 
@@ -226,13 +256,15 @@ When called after `/engineering-report` with user/stakeholder feedback:
 
 ## Key Rules
 
+- **FROZEN_SPEC.md is law.** Data preparation and evaluation protocol are locked after reproduction. Violating this invalidates all improvement results. No exceptions without explicit user approval + re-baselining.
 - **One change per round.** Never stack multiple hypotheses in a single A/B test.
-- **Fair comparison.** Same data, same splits, same seeds, same evaluation. Always.
+- **Fair comparison.** Same data, same splits, same seeds, same evaluation. Always. This is enforced by FROZEN_SPEC.md.
 - **Track everything.** Every round must be logged, even rejected ones.
 - **No cherry-picking.** Report all seeds, not just the best one.
 - **Budget awareness.** Track GPU-hours against AUCTOR.md budget.
 - **Reuse baseline infrastructure.** Don't rewrite training code — modify configs and minimal code.
 - **Ground truth.** Evaluation must use dataset ground truth, never another model's output.
+- **Augmentation is a gray area.** Changing data augmentation (noise/reverb/speed for speech, crop/flip for vision) may be legitimate but MUST be flagged to the user and the baseline MUST be re-run with the same augmentation for fair comparison.
 
 ## Composing with Other Skills
 

@@ -36,6 +36,7 @@ If `REPRO_TARGET.md` does not exist, create it from `templates/PAPER_REPRO_TARGE
 
 ```text
 REPRO_TARGET.md              # Frozen reproduction target (what to reproduce)
+FROZEN_SPEC.md               # LOCKED after reproduction — data prep & eval criteria (Phase 6)
 repro-logs/
   REPRO_RESOURCES.md         # Collected resources (code, data, models)
   REPRO_PLAN.md              # Reverse-engineering plan
@@ -304,7 +305,7 @@ If AUTO_ESCALATE = true and Feishu is configured:
 
 If human provides hints → restart from Phase 5.1 with new information, reset retry counter to MAX_RETRIES/2 (give a few more attempts with the new hints).
 
-### Phase 6: Success — Freeze Baseline
+### Phase 6: Success — Freeze Baseline and Lock Experiment Spec
 
 When reproduction succeeds (metrics within tolerance):
 
@@ -327,7 +328,59 @@ When reproduction succeeds (metrics within tolerance):
 
 3. **Update `REPRO_TARGET.md`** with final verdict: REPRODUCED / PARTIAL / ACCEPTED_WITH_GAP
 
-4. **Handoff**: The verified baseline is now ready for `/engineering-improve`.
+4. **Generate `FROZEN_SPEC.md`** — this is the fairness lock for all subsequent improvement experiments:
+
+```markdown
+# Frozen Experiment Specification
+# STATUS: LOCKED — generated after baseline reproduction
+# ANY modification to FROZEN sections requires explicit user approval and re-baselining.
+
+## Data Preparation — FROZEN
+- **Dataset**: [name, version, source URL]
+- **Download command**: [exact command]
+- **Preprocessing**: [exact pipeline — scripts, configs, params]
+- **Train/Val/Test split**: [exact split spec — file lists, ratios, seed]
+- **Sample counts**: Train=[N], Val=[N], Test=[N]
+- **Data format**: [format, sampling rate, etc.]
+- **Data fingerprint**: [md5/sha256 of processed data directory]
+
+## Evaluation Protocol — FROZEN
+- **Metrics**: [exact metric names — e.g., SI-SNRi, PESQ, STOI]
+- **Metric implementation**: [script path or library + version]
+- **Evaluation set**: [exact split used for reporting — e.g., test set]
+- **Scoring command**: [exact command to compute metrics]
+- **Post-processing**: [any post-processing before scoring — e.g., resample, trim]
+- **Eval script fingerprint**: [md5/sha256]
+
+## Data Augmentation — REQUIRES DISCUSSION
+<!-- For speech: noise, reverb, speed perturbation, etc. -->
+<!-- These are domain-specific gray areas. Modifying augmentation -->
+<!-- can be a legitimate research variable, but changes MUST be: -->
+<!-- 1. Explicitly approved by the user -->
+<!-- 2. Documented as a deliberate experimental variable -->
+<!-- 3. Applied identically to baseline re-run for fair comparison -->
+- [list current augmentation operations and params]
+- **Modification policy**: NEEDS_USER_APPROVAL
+
+## Allowed Modifications (for /engineering-improve)
+The following may be freely changed without re-baselining:
+- Feature extraction (e.g., n_fft, hop_length, n_mels)
+- Model architecture (layers, dimensions, connections)
+- Training algorithm / optimizer / LR scheduler
+- Hyperparameters (learning rate, batch size, epochs, warmup)
+- Loss function
+- Regularization (dropout, weight decay, label smoothing)
+
+## Baseline Reference
+- **Metric**: [name] = [value]
+- **Checkpoint**: [path]
+- **Run command**: [exact command]
+- **Reproduction date**: [timestamp]
+```
+
+**CRITICAL**: This file is the single source of truth for experiment fairness. The `engineering-improve` skill MUST check this file before every experiment and refuse to proceed if frozen sections have been modified.
+
+5. **Handoff**: The verified baseline + frozen spec is now ready for `/engineering-improve`.
 
 ```
 Reproduction complete:
